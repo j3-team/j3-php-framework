@@ -12,4 +12,4 @@ For now there is no installer, to make j3 to work, you need to download the sour
 
 # License
 
-j3-php-framework is licensed under the terms of [GPLv3] (http://www.gnu.org/licenses/gpl.html). We also include a copy of the license in the file LICENSE.
+*j3-php-framework* source code, images and sounds have been released under the *GPL v3* License. Please check the ``LICENSE`` file for more details or visit http://www.gnu.org/licenses/gpl-3.0.html
