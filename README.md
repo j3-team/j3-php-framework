@@ -7,5 +7,9 @@ The idea is to serve as help to PHP developers, providing tools and an estructur
 Project is under development, alpha version is not ready.
 
 # Installation
- 
+
 For now there is no installer, to make j3 to work, you need to download the source code and put it in your htmldocs folder (/var/www is the most common folder in Linux).
+
+# License
+
+j3-php-framework is licensed under the terms of [GPLv3] (http://www.gnu.org/licenses/gpl.html). We also include a copy of the license in the file LICENSE.
