@@ -1,18 +1,18 @@
 <?php
 /**
- * J3 PHP Framework - core/Core.php
+ * J3 PHP Framework - core/Utils.php
  *
- * This file contains the main code for load all Framework Core.
+ * This file contains utiles functions.
  *
  * @author J3 Team
  *
  * @changelog
- *  1. 2017-03-13: Initial version
+ *  1. 2017-03-14: Initial version
  */
 
 namespace J3\Core;
 
-class Core {
+class Utils {
 
    static function welcome() {
       echo 'Hello World!... I\'m J3 PHP Framework.';

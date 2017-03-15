@@ -12,6 +12,11 @@
 
 namespace J3;
 
-echo "Hello World!... I'm J3!";
+require_once('core/Core.php');
+
+use J3\Core\Core;
+use J3\Core\Utils;
+
+Core::welcome();
 
 ?>
