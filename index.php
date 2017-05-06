@@ -12,11 +12,11 @@
 
 namespace J3;
 
-require_once('core/Core.php');
+require_once('core/J3Core.php');
 
 use J3\Core\Core;
 use J3\Core\Utils;
 
-Core::welcome();
+J3Core::welcome();
 
 ?>
