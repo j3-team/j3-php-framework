@@ -13,12 +13,29 @@
 
 namespace J3\Core;
 
+require_once('J3Utils.php');
+
 class J3Core {
 
    static function welcome() {
       echo 'Hello World!... I\'m J3 PHP Framework.';
    }
 
+   static function sitemap() {
+   	J3Utils::downloadFile('sitemap.xml', 'application/xml');
+   }
+
+   static function robots() {
+   	J3Utils::downloadFile('robots.txt', 'text/plain');
+   }
+
+   static function phpinfo() {
+   	echo phpinfo();
+   }
+
+   static function processRequest($controller, $method, $others) {
+   	echo "Hola mundo! $controller";
+   }
 }
 
 ?>
