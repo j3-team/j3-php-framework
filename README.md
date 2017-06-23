@@ -8,7 +8,7 @@ Project is under development, alpha version is not ready.
 
 # Installation
 
-For now there is no installer, to make j3 to work, you need to download the source code and put it in your htmldocs folder (/var/www is the most common folder in Linux).
+For now there is no installer. To make j3 works, you need to download the source code and put it in your htmldocs folder (/var/www is the most common folder in Linux).
 
 # License
 
