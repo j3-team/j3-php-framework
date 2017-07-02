@@ -12,8 +12,6 @@
 
 namespace J3\Core\Mvc;
 
-require_once 'J3View.php';
-
 use J3\Core\J3Utils;
 use J3\Core\Mvc\J3View;
 
@@ -53,7 +51,7 @@ class J3Controller {
     */
    public function execute($method) {
       if (!method_exists($this, $method)) {
-         echo "Metodo $method no existe!!!";
+         J3View::warning("Metodo <strong>$method</strong> no existe!!!");
          return;
       }
 

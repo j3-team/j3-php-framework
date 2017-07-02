@@ -15,11 +15,14 @@
 namespace J3\Core;
 
 require_once 'J3Utils.php';
+require_once 'mvc/J3View.php';
+
+use J3\Core\Mvc\J3View;
 
 class J3Core {
 
    static function welcome() {
-      echo 'Hello World!... I\'m J3 PHP Framework.';
+      J3View::info('Hello World!... I\'m J3 PHP Framework.');
    }
 
    static function sitemap() {
@@ -46,7 +49,7 @@ class J3Core {
             require_once(J3Utils::DIR_MVC_CONTROLLERS . $controller . ".php");
             $className = strtoupper($controller[0]) . substr($controller, 1) . J3Utils::SUF_CONTROLLER;
             if (!class_exists($className, false)) {
-                echo "Clase $className no definida!";
+                J3View::warning("Clase <strong>$className</strong> no definida!");
                 return;
             }
             $objController = new $className;
@@ -60,7 +63,7 @@ class J3Core {
 
 
          } else {
-            echo "No se encontro archivo $controller.php";
+            J3View::warning("No se encontro archivo <strong>$controller.php</strong>");
          }
       } else {
          J3Core::welcome();
