@@ -10,11 +10,9 @@ use J3\Core\Mvc\J3Controller;
 class PerroController extends J3Controller {
    public $nombre = "Guao guao";
 
-   /**
-    * @returnType XML
-    */
+   
    public function gato() {
-      echo "Estoy en gato!";
+      echo "Estoy en gato!<br />";
    }
 }
 

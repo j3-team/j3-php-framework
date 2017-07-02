@@ -26,6 +26,7 @@ class J3Utils {
    const DIR_MVC_CONTROLLERS = J3Utils::DIR_MVC . 'controllers/';
    const DIR_MVC_MODELS      = J3Utils::DIR_MVC . 'models/';
    const DIR_MVC_VIEWS       = J3Utils::DIR_MVC . 'views/';
+   const DIR_MVC_LAYOUTS     = J3Utils::DIR_MVC . 'layouts/';
    const DIR_RESOURCES       = 'resources/';
 
    // Constans: Suffixes
@@ -42,6 +43,8 @@ class J3Utils {
    const ANN_METHOD_VIEW       = 'view';
    const ANN_METHOD_API_RETURN = 'apiReturn';
 
+   // Constans: Default values
+   const DEFAULT_LAYOUT        = 'default';
 
    static function downloadFile($file, $type) {
       if (file_exists($file)) {

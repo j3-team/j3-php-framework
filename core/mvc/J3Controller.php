@@ -12,7 +12,10 @@
 
 namespace J3\Core\Mvc;
 
+require_once 'J3View.php';
+
 use J3\Core\J3Utils;
+use J3\Core\Mvc\J3View;
 
 class J3Controller {
 
@@ -64,7 +67,7 @@ class J3Controller {
       $methodAnnotations = J3Utils::getMethodAnnotations($this, $method);
 
       // evaluate annotations
-      foreach ($this->$methodAnnotations as $key => $value) {
+      foreach ($methodAnnotations as $key => $value) {
          if ($key === J3Utils::ANN_METHOD_VIEW) {
             $methodView = $value;
          } else if ($key === J3Utils::ANN_METHOD_LAYOUT) {
@@ -79,7 +82,21 @@ class J3Controller {
       // run method
       $this->$method();
 
-      // TODO continue method execution...
+      // method is not api?
+      if ($methodApi === false) {
+         $view = new J3View($this, $methodLayout, $methodView);
+         $view->render();
+      } else {
+         // TODO API
+      }
+   }
+
+   public function getBaseName() {
+      $name = get_class($this);
+      $name = substr($name, 0, strlen($name)-strlen(J3Utils::SUF_CONTROLLER));
+      $name = strtolower($name);
+
+      return $name;
    }
 
 
