@@ -31,6 +31,17 @@ class J3Utils {
    // Constans: Suffixes
    const SUF_CONTROLLER      = 'Controller';
 
+   // Constans: Class Annotations
+   const ANN_CLASS_LAYOUT    = 'layout';
+   const ANN_CLASS_API       = 'api';
+   const ANN_CLASS_ALIAS     = 'alias';
+
+   // Constans: Method Annotations
+   const ANN_METHOD_LAYOUT     = 'layout';
+   const ANN_METHOD_API        = 'api';
+   const ANN_METHOD_VIEW       = 'view';
+   const ANN_METHOD_API_RETURN = 'apiReturn';
+
 
    static function downloadFile($file, $type) {
       if (file_exists($file)) {
