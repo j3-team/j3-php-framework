@@ -18,6 +18,7 @@ namespace J3\Core;
 
 require_once 'J3Utils.php';
 require_once 'mvc/J3View.php';
+require_once 'core/modules/J3ModuleLoader.php';
 require_once 'core/mvc/J3Controller.php';
 require_once 'mvc/controllers/j3generic.php';
 

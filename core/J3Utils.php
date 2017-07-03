@@ -16,12 +16,14 @@
 
 namespace J3\Core;
 
+
 class J3Utils {
 
    // Constans: Directories
    const DIR_CFG             = 'cfg/';
    const DIR_CORE            = 'core/';
    const DIR_DOCS            = 'docs/';
+   const DIR_EXTRAS          = 'extras/';
    const DIR_LOGS            = 'logs/';
    const DIR_MODULES         = 'modules/';
    const DIR_MVC             = 'mvc/';
@@ -51,7 +53,7 @@ class J3Utils {
    const DEFAULT_CONTROLLER    = 'j3generic';
 
    /* PRIVATE METHODS */
-   private static function raw_json_encode($input) {
+   static function raw_json_encode($input) {
    	return preg_replace_callback(
    			'/\\\\u([0-9a-zA-Z]{4})/',
    			function ($matches) {
@@ -105,35 +107,6 @@ class J3Utils {
       return $methodAnnotations;
    }
 
-
-   /* RESPONSE METHODS */
-
-   static function responseJSON($array, $stay = FALSE) {
-		$jsonString = J3Utils::raw_json_encode($array);
-
-		header("HTTP/1.1 200 OK");
-		header("Content-type: application/json; charset=utf-8");
-
-		echo $jsonString;
-
-		if ($stay == FALSE) {
-			exit(0);
-		}
-	}
-
-   static function responseXML($array, $stay = FALSE) {
-		$jsonString = raw_json_encode($array);
-      //TODO convert array to XML
-
-		header("HTTP/1.1 200 OK");
-		header("Content-type: application/xml; charset=utf-8");
-
-		echo $jsonString;
-
-		if ($stay == FALSE) {
-			exit(0);
-		}
-	}
 
    static function downloadFile($file, $type) {
       if (file_exists($file)) {

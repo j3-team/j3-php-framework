@@ -41,6 +41,33 @@ class TestcController extends J3GenericController {
 
       return $arr;
    }
+
+   /**
+    * Prueba de JSON API
+    * @Api
+    * @ReturnType XML
+    */
+   public function five() {
+      $arr = array(
+         "@root" => "elemRaiz",
+         "@attributes" => array(
+            "attr1" => "Prueba atributo"
+         ),
+         "uno" => "Valor 1",
+         "dos" => array(
+            array(
+               "tres" => "Valor 3",
+               "cuatro" => "Valor 4"
+            ),
+            array(
+               "tres" => "Valor 3.1",
+               "cuatro" => array('@cdata' => 'Valor 4.1 con tags tipo <test>Hola</test>'),
+            )
+         )
+      );
+
+      return $arr;
+   }
 }
 
 

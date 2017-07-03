@@ -17,6 +17,10 @@ namespace J3\Core\Mvc;
 
 use J3\Core\J3Utils;
 use J3\Core\Mvc\J3View;
+use J3\Core\Modules\J3ModuleLoader;
+
+//test module load
+J3ModuleLoader::loadExtra('Array2XML-0.8');
 
 class J3Controller {
 
@@ -103,9 +107,9 @@ class J3Controller {
             // TODO evaluate if use exit instead warning
          } else {
             if ($methodApiReturn === 'JSON') {
-               J3Utils::responseJSON($returnOfMethod);
+               J3Controller::responseJSON($returnOfMethod);
             } else if ($methodApiReturn === 'XML') {
-               // TODO implement XML
+               J3Controller::responseXML($returnOfMethod);
             } else if ($methodApiReturn === 'FILE') {
                // TODO implement file
             } else { // RAW
@@ -130,6 +134,39 @@ class J3Controller {
    }
 
 
+   /* RESPONSE METHODS */
+
+   static function responseJSON($array, $stay = FALSE) {
+		$jsonString = J3Utils::raw_json_encode($array);
+
+		header("HTTP/1.1 200 OK");
+		header("Content-type: application/json; charset=utf-8");
+
+		echo $jsonString;
+
+		if ($stay == FALSE) {
+			exit(0);
+		}
+	}
+
+   static function responseXML($array, $stay = FALSE) {
+      $root = "root";
+      if (isset($array["@root"])) {
+         $root = $array["@root"];
+         unset($array["@root"]);
+      }
+
+      $xml = \Array2XML::createXML($root, $array);
+
+		header("HTTP/1.1 200 OK");
+		header("Content-type: application/xml; charset=utf-8");
+
+		echo $xml->saveXML();
+
+		if ($stay == FALSE) {
+			exit(0);
+		}
+	}
 }
 
 ?>
