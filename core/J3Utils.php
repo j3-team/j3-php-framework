@@ -49,18 +49,23 @@ class J3Utils {
    // Constans: Default values
    const DEFAULT_LAYOUT        = 'j3default';
 
-   static function downloadFile($file, $type) {
-      if (file_exists($file)) {
-   		header('Content-Description: File Transfer');
-   		header('Content-Type: ' . $type);
-   		header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-   		header('Expires: 0');
-   		header('Cache-Control: must-revalidate');
-   		header('Pragma: public');
-   		header('Content-Length: ' . filesize($file));
-   		readfile($file);
-   	}
-   	exit;
+   /* PRIVATE METHODS */
+   private static function raw_json_encode($input) {
+   	return preg_replace_callback(
+   			'/\\\\u([0-9a-zA-Z]{4})/',
+   			function ($matches) {
+   				return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');
+   			},
+   			json_encode($input)
+   	);
+   }
+
+   /* UTILS METHODS */
+   static function getVariableName(&$var, $scope=0) {
+      $old = $var;
+      if (($key = array_search($var = 'unique'.rand().'value', !$scope ? $GLOBALS : $scope)) && $var = $old) {
+         return $key;
+      }
    }
 
    static function getClassAnnotations($class) {
@@ -99,8 +104,11 @@ class J3Utils {
       return $methodAnnotations;
    }
 
+
+   /* RESPONSE METHODS */
+
    static function responseJSON($array, $stay = FALSE) {
-		$jsonString = raw_json_encode($array);
+		$jsonString = J3Utils::raw_json_encode($array);
 
 		header("HTTP/1.1 200 OK");
 		header("Content-type: application/json; charset=utf-8");
@@ -125,6 +133,21 @@ class J3Utils {
 			exit(0);
 		}
 	}
+
+   static function downloadFile($file, $type) {
+      if (file_exists($file)) {
+   		header('Content-Description: File Transfer');
+   		header('Content-Type: ' . $type);
+   		header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+   		header('Expires: 0');
+   		header('Cache-Control: must-revalidate');
+   		header('Pragma: public');
+   		header('Content-Length: ' . filesize($file));
+   		readfile($file);
+   	}
+   	exit(0);
+   }
+
 
 }
 

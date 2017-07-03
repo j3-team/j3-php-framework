@@ -67,7 +67,7 @@ class J3Controller {
       // method variables
       $methodView = $method;
       $methodApi = $this->apiClass;
-      $methodApiReturn = null;
+      $methodApiReturn = "RAW";
       $methodMimeType = null;
       $methodLayout = $this->classLayout;
 
@@ -95,14 +95,31 @@ class J3Controller {
          }
       }
 
-      // method is not api?
+      // now, is time to run method
+
+      // is method not api?
       if ($methodApi === false) {
-         // run method
          $this->$method();
          $view = new J3View($this, $methodLayout, $methodView);
          $view->render();
-      } else {
-         // TODO API
+      } else { // method is api
+         $returnOfMethod = $this->$method();
+         if (!isset($returnOfMethod) || $returnOfMethod === null) {
+            J3View::warning("Method <strong>$method</strong> must return a value.");
+            // TODO evaluate if use exit instead warning
+         } else {
+            if ($methodApiReturn === 'JSON') {
+               J3Utils::responseJSON($returnOfMethod);
+            } else if ($methodApiReturn === 'XML') {
+               // TODO implement XML
+            } else if ($methodApiReturn === 'FILE') {
+               // TODO implement file
+            } else { // RAW
+               // TODO implement RAW
+            }
+
+         }
+
       }
    }
 
