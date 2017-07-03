@@ -3,7 +3,7 @@
 /**
  * @Layout test
  */
-class PerroController extends J3\Core\Mvc\J3Controller {
+class PerroController extends J3GenericController {
    public $nombre = "Guao guao";
 
    /**
@@ -28,12 +28,18 @@ class PerroController extends J3\Core\Mvc\J3Controller {
       $arr = array(
          "uno" => "Valor 1",
          "dos" => array(
-            "tres" => "Valor 3",
-            "cuatro" => "Valor 4"
+            array(
+               "tres" => "Valor 3",
+               "cuatro" => "Valor 4"
+            ),
+            array(
+               "tres" => "Valor 3.1",
+               "cuatro" => "Valor 4.1"
+            )
          )
       );
 
-      //return $arr;
+      return $arr;
    }
 }
 

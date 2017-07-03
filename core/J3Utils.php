@@ -48,6 +48,7 @@ class J3Utils {
 
    // Constans: Default values
    const DEFAULT_LAYOUT        = 'j3default';
+   const DEFAULT_CONTROLLER    = 'j3generic';
 
    /* PRIVATE METHODS */
    private static function raw_json_encode($input) {

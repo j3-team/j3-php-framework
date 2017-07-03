@@ -19,6 +19,7 @@ namespace J3\Core;
 require_once 'J3Utils.php';
 require_once 'mvc/J3View.php';
 require_once 'core/mvc/J3Controller.php';
+require_once 'mvc/controllers/j3generic.php';
 
 use J3\Core\Mvc\J3View;
 
@@ -53,6 +54,10 @@ class J3Core {
       // Get Controller class
       if (isset($controller)) {
          $controller = strtolower($controller);
+         if ($controller === J3Utils::DEFAULT_CONTROLLER) {
+            J3View::warning("Class <strong>J3GenericController</strong> can be used directly.");
+            exit(0);
+         }
 
          if (file_exists(J3Utils::DIR_MVC_CONTROLLERS . $controller . ".php")) {
 

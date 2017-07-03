@@ -47,12 +47,6 @@ class J3Controller {
       }
    }
 
-   /**
-    * Index method
-    */
-   public function index() {
-      // Do nothing... Must be implemented in child classes
-   }
 
    /**
     * Executes the specific method
