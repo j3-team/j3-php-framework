@@ -106,6 +106,10 @@ class J3Controller {
       }
    }
 
+   /**
+    * Returns base name for this class
+    * @return String
+    */
    public function getBaseName() {
       $name = get_class($this);
       $name = substr($name, 0, strlen($name)-strlen(J3Utils::SUF_CONTROLLER));

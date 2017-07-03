@@ -30,6 +30,9 @@ class J3View {
       }
    }
 
+   /**
+    * Renders the view.
+    */
    public function render() {
       $c = $this->c;
       $v = $this;
@@ -43,6 +46,9 @@ class J3View {
       }
    }
 
+   /**
+    * Puts the view content on page.
+    */
    public function viewContent() {
       $c = $this->c;
       $v = $this;
@@ -54,10 +60,16 @@ class J3View {
       }
    }
 
+   /**
+    * Shows a WARNING system message.
+    */
    public static function warning($message) {
       echo "<div style=\"top: 0px; position: relative; background-color: orange; color: black; text-align: center; padding: 5px 10px; margin: 0;font-size: 14px;\">J3 WARNING: $message</div>";
    }
 
+   /**
+    * Shows a INFO system message.
+    */
    public static function info($message) {
       echo "<div style=\"top: 0px; position: relative; background-color: lightblue; color: black; text-align: center; padding: 5px 10px; margin: 0;font-size: 14px;\">$message</div>";
    }

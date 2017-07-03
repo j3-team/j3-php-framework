@@ -40,6 +40,14 @@ class J3Core {
    	echo phpinfo();
    }
 
+   /**
+    * This is de main core method.
+    * Proceess the request and executes Methods and Views.
+    * Params depends of URL: http://<site>/<controller>/<view>/<others>
+    * @param $controller Controller name.
+    * @param $method Method/View name.
+    * @param $others Others parameters.
+    */
    static function processRequest($controller, $method, $others) {
 
       // Get Controller class
