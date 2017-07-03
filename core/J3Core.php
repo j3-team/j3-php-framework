@@ -10,12 +10,15 @@
  *  1. 2017-03-13: Initial version
  *  2. 2017-05-06: Rename class
  *  3. 2017-07-01: Initial implementation of processRequest method
+ *  4. 2017-07-03: Change messages language
+  *                Require J3Controller
  */
 
 namespace J3\Core;
 
 require_once 'J3Utils.php';
 require_once 'mvc/J3View.php';
+require_once 'core/mvc/J3Controller.php';
 
 use J3\Core\Mvc\J3View;
 
@@ -49,7 +52,7 @@ class J3Core {
             require_once(J3Utils::DIR_MVC_CONTROLLERS . $controller . ".php");
             $className = strtoupper($controller[0]) . substr($controller, 1) . J3Utils::SUF_CONTROLLER;
             if (!class_exists($className, false)) {
-                J3View::warning("Clase <strong>$className</strong> no definida!");
+                J3View::warning("Class <strong>$className</strong> not defined.");
                 return;
             }
             $objController = new $className;
@@ -63,7 +66,7 @@ class J3Core {
 
 
          } else {
-            J3View::warning("No se encontro archivo <strong>$controller.php</strong>");
+            J3View::warning("File <strong>$controller.php</strong> not found.");
          }
       } else {
          J3Core::welcome();

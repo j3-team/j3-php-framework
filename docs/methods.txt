@@ -2,13 +2,16 @@ Controller Classes Methods:
 -------------------
 
 1. Annotations
-   - view:       Set view to render at the end of method execution.
+   - View:       Set view to render at the end of method execution.
                  If not defined, use same method name for view.
-   - layout:     Define layout to use in order to show the content on web page.
+   - Layout:     Define layout to use in order to show the content on web page.
                  If not defined, use Class layout.
-   - api:        With no value.
+   - Api:        With no value.
                  Set this method as API method (doesn't render view, only returns
                  values).
-   - apiReturn:  Use with api.
+                 The method with this annotation must have return value.
+   - ReturnType: Use with api.
                  Set the return type of current method.
-                 Values: XML, JSON, String, Number, File.
+                 Values: XML, JSON, RAW, FILE.
+   - MimeType:   If ReturnType equals "RAW" or "FILE", this value determines the
+                 Mime-Type to return.

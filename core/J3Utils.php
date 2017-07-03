@@ -10,6 +10,8 @@
  *  1. 2017-03-14: Initial version
  *  2. 2017-05-06: Rename class
  *  3. 2017-07-01: Add constans
+ *  4. 2017-07-03: More constans
+ *                 Include functions for API repsonses
  */
 
 namespace J3\Core;
@@ -33,18 +35,19 @@ class J3Utils {
    const SUF_CONTROLLER      = 'Controller';
 
    // Constans: Class Annotations
-   const ANN_CLASS_LAYOUT    = 'layout';
-   const ANN_CLASS_API       = 'api';
-   const ANN_CLASS_ALIAS     = 'alias';
+   const ANN_CLASS_LAYOUT    = 'Layout';
+   const ANN_CLASS_API       = 'Api';
+   const ANN_CLASS_ALIAS     = 'Alias';
 
    // Constans: Method Annotations
-   const ANN_METHOD_LAYOUT     = 'layout';
-   const ANN_METHOD_API        = 'api';
-   const ANN_METHOD_VIEW       = 'view';
-   const ANN_METHOD_API_RETURN = 'apiReturn';
+   const ANN_METHOD_LAYOUT      = 'Layout';
+   const ANN_METHOD_API         = 'Api';
+   const ANN_METHOD_VIEW        = 'View';
+   const ANN_METHOD_RETURN_TYPE = 'ReturnType';
+   const ANN_METHOD_MIME_TYPE   = 'MimeType';
 
    // Constans: Default values
-   const DEFAULT_LAYOUT        = 'default';
+   const DEFAULT_LAYOUT        = 'j3default';
 
    static function downloadFile($file, $type) {
       if (file_exists($file)) {
@@ -95,6 +98,33 @@ class J3Utils {
       }
       return $methodAnnotations;
    }
+
+   static function responseJSON($array, $stay = FALSE) {
+		$jsonString = raw_json_encode($array);
+
+		header("HTTP/1.1 200 OK");
+		header("Content-type: application/json; charset=utf-8");
+
+		echo $jsonString;
+
+		if ($stay == FALSE) {
+			exit(0);
+		}
+	}
+
+   static function responseXML($array, $stay = FALSE) {
+		$jsonString = raw_json_encode($array);
+      //TODO convert array to XML
+
+		header("HTTP/1.1 200 OK");
+		header("Content-type: application/xml; charset=utf-8");
+
+		echo $jsonString;
+
+		if ($stay == FALSE) {
+			exit(0);
+		}
+	}
 
 }
 

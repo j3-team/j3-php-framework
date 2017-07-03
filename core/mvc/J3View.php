@@ -8,6 +8,7 @@
  *
  * @changelog
  *  1. 2017-07-01: Initial version
+ *  2. 2017-07-03: Change messages language
  */
 
 namespace J3\Core\Mvc;
@@ -36,7 +37,7 @@ class J3View {
          require(J3Utils::DIR_MVC_LAYOUTS . $this->layout . '.php');
       } else {
          if ($this->layout !== J3Utils::DEFAULT_LAYOUT) {
-            J3View::warning("Layout <strong>$this->layout</strong> no existe!!!");
+            J3View::warning("Layout <strong>$this->layout</strong> not found.");
          }
          $this->viewContent();
       }
@@ -47,7 +48,7 @@ class J3View {
       $v = $this;
 
       if (!file_exists(J3Utils::DIR_MVC_VIEWS . $this->view . '.php')) {
-         J3View::warning ("Vista <strong>$this->view</strong> no existe!!");
+         J3View::warning ("View <strong>$this->view</strong> not found.");
       } else {
          require(J3Utils::DIR_MVC_VIEWS . $this->view . '.php');
       }

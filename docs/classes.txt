@@ -2,10 +2,10 @@ Controller Classes:
 -------------------
 
 1. Annotations
-   - layout:  Define layout to use in order to show the content on web page.
+   - Layout:  Define layout to use in order to show the content on web page.
               If not defined, use "default" layout.
-   - api:     With no value.
+   - Api:     With no value.
               Set this Controller as API Controller: all methods inside are API
               methods (doesn't render view, only returns values)
-   - alias:   Not implemented yet.
+   - Alias:   Not implemented yet.
               Allows this class be called with alias instead its name.

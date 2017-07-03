@@ -8,6 +8,9 @@
  *
  * @changelog
  *  1. 2017-07-01: Initial version
+ *  2. 2017-07-03: Change messages language
+ *                 Validate annotation values
+ *
  */
 
 namespace J3\Core\Mvc;
@@ -18,7 +21,7 @@ use J3\Core\Mvc\J3View;
 class J3Controller {
 
    protected $classAnnotations = array();
-   protected $classLayout = "default";
+   protected $classLayout = J3Utils::DEFAULT_LAYOUT;
    protected $apiClass = false;
    protected $classAlias = null;
 
@@ -28,12 +31,18 @@ class J3Controller {
 
       //evaluate class annotations
       foreach ($this->classAnnotations as $key => $value) {
+         $withValue = true;
          if ($key === J3Utils::ANN_CLASS_LAYOUT) {
             $this->classLayout = $value;
          } else if ($key === J3Utils::ANN_CLASS_API) {
             $this->apiClass = true;
+            $withValue = false;
          } else if ($key === J3Utils::ANN_CLASS_ALIAS) {
             $this->classAlias = $value;
+         }
+
+         if ($withValue === true && ($value === "" || !isset($value) || $value === null)) {
+            J3View::warning("Annotation <strong>$key</strong> must have a value.");
          }
       }
    }
@@ -51,14 +60,15 @@ class J3Controller {
     */
    public function execute($method) {
       if (!method_exists($this, $method)) {
-         J3View::warning("Metodo <strong>$method</strong> no existe!!!");
+         J3View::warning("Method <strong>$method</strong> not defined.");
          return;
       }
 
       // method variables
       $methodView = $method;
-      $methodApi = false;
+      $methodApi = $this->apiClass;
       $methodApiReturn = null;
+      $methodMimeType = null;
       $methodLayout = $this->classLayout;
 
       // get method annotations
@@ -66,22 +76,29 @@ class J3Controller {
 
       // evaluate annotations
       foreach ($methodAnnotations as $key => $value) {
+         $withValue = true;
          if ($key === J3Utils::ANN_METHOD_VIEW) {
             $methodView = $value;
          } else if ($key === J3Utils::ANN_METHOD_LAYOUT) {
             $methodLayout = $value;
          } else if ($key === J3Utils::ANN_METHOD_API) {
             $methodApi = true;
-         } else if ($key === J3Utils::ANN_METHOD_API_RETURN) {
+            $withValue = false;
+         } else if ($key === J3Utils::ANN_METHOD_RETURN_TYPE) {
             $methodApiReturn = $value;
+         } else if ($key === J3Utils::ANN_METHOD_MIME_TYPE) {
+            $methodMimeType = $value;
+         }
+
+         if ($withValue === true && ($value === "" || !isset($value) || $value === null)) {
+            J3View::warning("Annotation <strong>$key</strong> must have a value.");
          }
       }
 
-      // run method
-      $this->$method();
-
       // method is not api?
       if ($methodApi === false) {
+         // run method
+         $this->$method();
          $view = new J3View($this, $methodLayout, $methodView);
          $view->render();
       } else {
