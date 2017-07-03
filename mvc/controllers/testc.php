@@ -1,22 +1,22 @@
 <?php
 
 /**
- * @Layout test
+ * @Layout test1
  */
-class PerroController extends J3GenericController {
-   public $nombre = "Guao guao";
+class TestcController extends J3GenericController {
+   public $name = "Test Controller 4";
 
    /**
     *
     */
-   public function gato() {
+   public function one() {
    }
 
    /**
-    * @Layout dos
-    * @View oveja
+    * @Layout test2
+    * @View three
     */
-   public function loro() {
+   public function two() {
    }
 
    /**
@@ -24,7 +24,7 @@ class PerroController extends J3GenericController {
     * @Api
     * @ReturnType JSON
     */
-   public function test() {
+   public function four() {
       $arr = array(
          "uno" => "Valor 1",
          "dos" => array(
