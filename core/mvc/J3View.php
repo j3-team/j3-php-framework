@@ -10,6 +10,8 @@
  *  1. 2017-07-01: Initial version
  *  2. 2017-07-03: Change messages language
  *  3. 2017-07-05: Create a new object $m with dynamic attributes
+ *  4. 2017-07-06: Optimize mem use
+ *                 AppBase HTML Tag
  */
 
 namespace J3\Core\Mvc;
@@ -23,13 +25,13 @@ class J3View {
    private $controller;
    private $layout;
    private $view;
-   private $methodLocalVariables;
+   private $method;
 
    public function __construct($controller, $layout, $view, array $methodLocalVariables = array()) {
       $this->view = $controller->getBaseName() . '/' . $view;
       $this->layout = $layout;
       $this->controller = $controller;
-      $this->methodLocalVariables = $methodLocalVariables;
+      $this->method = new J3ControllerMethod($methodLocalVariables);
       if (!isset($this->layout)) {
          $this->layout = J3Utils::DEFAULT_LAYOUT;
       }
@@ -41,7 +43,8 @@ class J3View {
    public function render() {
       $c = $this->controller;
       $v = $this;
-      $m = new J3ControllerMethod($this->methodLocalVariables);
+      $m = $this->method;
+
       if (file_exists(J3Utils::DIR_MVC_LAYOUTS . $this->layout . '.php')) {
          require(J3Utils::DIR_MVC_LAYOUTS . $this->layout . '.php');
       } else {
@@ -58,7 +61,7 @@ class J3View {
    public function viewContent() {
       $c = $this->controller;
       $v = $this;
-      $m = new J3ControllerMethod($this->methodLocalVariables);
+      $m = $this->method;
 
       if (!file_exists(J3Utils::DIR_MVC_VIEWS . $this->view . '.php')) {
          J3View::warning ("View <strong>$this->view</strong> not found.");
@@ -79,6 +82,19 @@ class J3View {
     */
    public static function info($message) {
       echo "<div style=\"top: 0px; position: relative; background-color: lightblue; color: black; text-align: center; padding: 5px 10px; margin: 0;font-size: 14px;\">$message</div>";
+   }
+
+   /**
+    * Generates the HTML app base tag
+    * @return String App Base HTML tag
+    */
+   public static function htmlAppBase() {
+      $array = explode('/', $_SERVER["REQUEST_URI"],3);
+      $type = 1;
+      $path = $_SERVER['HTTP_HOST'].($type == 1 ? ('/'.$array[1]) : '');
+      $url = "http://$path/";
+
+      return '<base href="'. $url .'" />';
    }
 }
 
