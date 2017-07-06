@@ -17,6 +17,7 @@ class TestcController extends J3GenericController {
     * @View three
     */
    public function two() {
+      $el_perrito = "Scooby Doo";
    }
 
    /**

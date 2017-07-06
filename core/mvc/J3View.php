@@ -9,22 +9,27 @@
  * @changelog
  *  1. 2017-07-01: Initial version
  *  2. 2017-07-03: Change messages language
+ *  3. 2017-07-05: Create a new object $m with dynamic attributes
  */
 
 namespace J3\Core\Mvc;
+
+require_once 'J3ControllerMethod.php';
 
 use J3\Core\J3Utils;
 
 class J3View {
 
-   public $c;
-   public $layout;
-   public $view;
+   private $controller;
+   private $layout;
+   private $view;
+   private $methodLocalVariables;
 
-   public function __construct($controller, $layout, $view) {
+   public function __construct($controller, $layout, $view, array $methodLocalVariables = array()) {
       $this->view = $controller->getBaseName() . '/' . $view;
       $this->layout = $layout;
-      $this->c = $controller;
+      $this->controller = $controller;
+      $this->methodLocalVariables = $methodLocalVariables;
       if (!isset($this->layout)) {
          $this->layout = J3Utils::DEFAULT_LAYOUT;
       }
@@ -34,8 +39,9 @@ class J3View {
     * Renders the view.
     */
    public function render() {
-      $c = $this->c;
+      $c = $this->controller;
       $v = $this;
+      $m = new J3ControllerMethod($this->methodLocalVariables);
       if (file_exists(J3Utils::DIR_MVC_LAYOUTS . $this->layout . '.php')) {
          require(J3Utils::DIR_MVC_LAYOUTS . $this->layout . '.php');
       } else {
@@ -50,8 +56,9 @@ class J3View {
     * Puts the view content on page.
     */
    public function viewContent() {
-      $c = $this->c;
+      $c = $this->controller;
       $v = $this;
+      $m = new J3ControllerMethod($this->methodLocalVariables);
 
       if (!file_exists(J3Utils::DIR_MVC_VIEWS . $this->view . '.php')) {
          J3View::warning ("View <strong>$this->view</strong> not found.");

@@ -10,7 +10,7 @@
  *  1. 2017-07-01: Initial version
  *  2. 2017-07-03: Change messages language
  *                 Validate annotation values
- *
+ *  3. 2017-07-05: Create method at runtime to obtain its locally defined variables
  */
 
 namespace J3\Core\Mvc;
@@ -28,6 +28,13 @@ class J3Controller {
    protected $classLayout = J3Utils::DEFAULT_LAYOUT;
    protected $apiClass = false;
    protected $classAlias = null;
+
+   public function __call($method, $args) {
+        if (isset($this->$method)) {
+            $func = $this->$method;
+            return call_user_func_array($func, $args);
+        }
+    }
 
    public function __construct() {
       // get class annotations
@@ -97,8 +104,12 @@ class J3Controller {
 
       // is method not api?
       if ($methodApi === false) {
-         $this->$method();
-         $view = new J3View($this, $methodLayout, $methodView);
+         // Modify and execute method
+         $this->modifyMyMethod($method);
+         $method = "j3_new_$method";
+         $methodLocalVariables = $this->$method();
+
+         $view = new J3View($this, $methodLayout, $methodView, $methodLocalVariables);
          $view->render();
       } else { // method is api
          $returnOfMethod = $this->$method();
@@ -167,6 +178,33 @@ class J3Controller {
 			exit(0);
 		}
 	}
+
+   /**
+    * Modify source code of given method and create a new one with return variables.
+    * @param  String $methodName Method name
+    * @return void
+    */
+   private function modifyMyMethod($methodName) {
+      // Get method properties
+      $method = new \ReflectionMethod(get_class($this), $methodName);
+      $filename = $method->getFileName();
+      $start_line = $method->getStartLine();
+      $end_line = $method->getEndLine();
+      $length = $end_line - $start_line;
+
+      // Obtain method source
+      $source = file($filename);
+      $body = implode("", array_slice($source, $start_line, $length));
+
+      // Modify method source adding return line at the end
+      $body = substr($body, 0,strrpos($body, '}'));
+      $body = "$body return get_defined_vars();";
+
+      //Create new function on me
+      $newFunction = create_function('', $body);
+      $methodName = "j3_new_$methodName";
+      $this->$methodName = $newFunction;
+   }
 }
 
 ?>
