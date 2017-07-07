@@ -124,7 +124,7 @@ class J3Controller {
             } else if ($methodApiReturn === 'FILE') {
                // TODO implement file
             } else { // RAW
-               // TODO implement RAW
+               J3Controller::responseRAW($returnOfMethod);
             }
 
          }
@@ -173,6 +173,17 @@ class J3Controller {
 		header("Content-type: application/xml; charset=utf-8");
 
 		echo $xml->saveXML();
+
+		if ($stay == FALSE) {
+			exit(0);
+		}
+	}
+
+   static function responseRAW($data, $stay = FALSE) {
+		header("HTTP/1.1 200 OK");
+		//header("Content-type: application/json; charset=utf-8");
+
+		echo $data;
 
 		if ($stay == FALSE) {
 			exit(0);

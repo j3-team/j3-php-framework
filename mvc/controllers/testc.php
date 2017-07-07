@@ -69,6 +69,16 @@ class TestcController extends J3GenericController {
 
       return $arr;
    }
+
+   /**
+    * Prueba de RAW API
+    * @Api
+    * @ReturnType RAW
+    */
+   public function six() {
+
+      return 258;
+   }
 }
 
 
