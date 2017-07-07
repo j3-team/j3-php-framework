@@ -19,7 +19,7 @@ namespace J3\Core;
 
 class J3Utils {
 
-   // Constans: Directories
+   // Constans: Directories and files
    const DIR_CFG             = 'cfg/';
    const DIR_CORE            = 'core/';
    const DIR_DOCS            = 'docs/';
@@ -32,6 +32,7 @@ class J3Utils {
    const DIR_MVC_VIEWS       = J3Utils::DIR_MVC . 'views/';
    const DIR_MVC_LAYOUTS     = J3Utils::DIR_MVC . 'layouts/';
    const DIR_RESOURCES       = 'resources/';
+   const FILE_INI_RESOURCES  = J3Utils::DIR_RESOURCES . 'resources.ini';
 
    // Constans: Suffixes
    const SUF_CONTROLLER      = 'Controller';

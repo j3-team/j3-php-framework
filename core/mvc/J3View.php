@@ -12,6 +12,7 @@
  *  3. 2017-07-05: Create a new object $m with dynamic attributes
  *  4. 2017-07-06: Optimize mem use
  *                 AppBase HTML Tag
+ *                 Functions to include CSS and JS files from INI file
  */
 
 namespace J3\Core\Mvc;
@@ -96,6 +97,51 @@ class J3View {
 
       return '<base href="'. $url .'" />';
    }
+
+   /**
+    * Insert a CSS code from ini file
+    * @param  String $section INI file section
+    * @return String          HTML code for CSS include
+    */
+   public function includeCSS($section) {
+      $ini_array = parse_ini_file(J3Utils::FILE_INI_RESOURCES, true);
+      $to_print = "\n";
+      foreach ($ini_array as $key => $value) {
+         if ($key === $section) {
+            if (isset($value['css'])) {
+               foreach ($value['css'] as $key2) {
+                  $css = '<link rel="stylesheet" type="text/css" href="resources/'.$key2.'" />';
+                  $to_print = "$to_print   $css\n";
+               }
+            }
+         }
+      }
+
+      return $to_print;
+   }
+
+   /**
+    * Insert a JS code from ini file
+    * @param  String $section INI file section
+    * @return String          HTML code for JS include
+    */
+   public function includeJS($section) {
+      $ini_array = parse_ini_file(J3Utils::FILE_INI_RESOURCES, true);
+      $to_print = "\n";
+      foreach ($ini_array as $key => $value) {
+         if ($key === $section) {
+            if (isset($value['js'])) {
+               foreach ($value['js'] as $key2) {
+                  $js = '<script type="text/javascript" src="resources/'.$key2.'"></script>';
+                  $to_print = "$to_print   $js\n";
+               }
+            }
+         }
+      }
+
+      return $to_print;
+   }
+
 }
 
 ?>
