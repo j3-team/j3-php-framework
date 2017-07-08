@@ -89,7 +89,7 @@ class J3View {
     * Generates the HTML app base tag
     * @return String App Base HTML tag
     */
-   public static function htmlAppBase() {
+   public static function appBase() {
       $array = explode('/', $_SERVER["REQUEST_URI"],3);
       $type = 1;
       $path = $_SERVER['HTTP_HOST'].($type == 1 ? ('/'.$array[1]) : '');
@@ -103,7 +103,7 @@ class J3View {
     * @param  String $section INI file section
     * @return String          HTML code for CSS include
     */
-   public function includeCSS($section) {
+   public function css($section) {
       $ini_array = parse_ini_file(J3Utils::FILE_INI_RESOURCES, true);
       $to_print = "\n";
       foreach ($ini_array as $key => $value) {
@@ -125,7 +125,7 @@ class J3View {
     * @param  String $section INI file section
     * @return String          HTML code for JS include
     */
-   public function includeJS($section) {
+   public function js($section) {
       $ini_array = parse_ini_file(J3Utils::FILE_INI_RESOURCES, true);
       $to_print = "\n";
       foreach ($ini_array as $key => $value) {

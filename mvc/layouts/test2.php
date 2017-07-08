@@ -1,7 +1,7 @@
 <html>
 <head>
-   <?= $v->htmlAppBase(); ?>
-   <?= $v->includeCSS('default'); ?>
+   <?= $v->appBase(); ?>
+   <?= $v->css('default'); ?>
 </head>
 <body>
    <div style="width: 100%; text-align: center; background-color: lightgreen;">
