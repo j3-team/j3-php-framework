@@ -1,0 +1,27 @@
+J3 Legacy:
+----------
+
+$t = new Table();
+$t->addCondition("field", "value");
+$t->addCondition("field2", "value2");
+$t->setOrderBy("fieldX", "ASC");
+if ($t->doSelectAll()) {
+   while ($t->next()) {
+      echo $t->getValue("field3");
+   }
+}
+
+
+Laravel Eloquent:
+-----------------
+
+$t = new Table();
+$result = $t->where("field", "value")
+            ->where("field2", "value2")
+            ->orderBy("fieldX", "asc")
+            ->get();
+
+New J3:
+-------
+
+thinking...

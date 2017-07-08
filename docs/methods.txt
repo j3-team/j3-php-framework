@@ -1,4 +1,4 @@
-Controller Classes Methods:
+Controller Class Methods:
 -------------------
 
 1. Annotations

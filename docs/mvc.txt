@@ -1,0 +1,24 @@
+MVC how-to:
+-----------
+
+J3 MVC implementation is similar to others frameworks.
+
+The main idea consists in use URL <protocol>://<host>/<controller>/<method>/<other_params>
+
+All user files must be located under "mvc" folder.
+
+Every controller class must extends J3BaseController.
+
+J3BaseController is under mvc/controllers directory. This class allows modifications in order to create
+variables and functions for all other controllers.
+
+Every public method in controller become a view. Please, see Annotations reference to details.
+
+Under views folder must exists one folder for every controller (not API).
+
+Every view can implements one layout.
+
+In layouts/view exists three objects:
+- $c - Controller object.
+- $v - View object. Allow use render methods.
+- $m - Method Object. Allow access to method local defined variables.

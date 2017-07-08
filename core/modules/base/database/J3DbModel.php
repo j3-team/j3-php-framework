@@ -2,7 +2,7 @@
 /**
  * J3 PHP Framework - core/modules/base/database/J3DbModel.php
  *
- * This file contains the base code for Database Models
+ * This file contains the base class for Database Models
  *
  * @author J3 Team
  *

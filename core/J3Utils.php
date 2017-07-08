@@ -57,7 +57,14 @@ class J3Utils {
    const DEFAULT_LAYOUT        = 'j3default';
    const DEFAULT_CONTROLLER    = 'j3base';
 
-   /* PRIVATE METHODS */
+
+   /* ---- UTILS METHODS ---- */
+
+   /**
+    * Converts Array to JSON plain.
+    * @param  Array $input PHP Array.
+    * @return String       JSON String.
+    */
    static function raw_json_encode($input) {
    	return preg_replace_callback(
    			'/\\\\u([0-9a-zA-Z]{4})/',
@@ -68,7 +75,12 @@ class J3Utils {
    	);
    }
 
-   /* UTILS METHODS */
+   /**
+    * Retrieves variable name. Example, for var $name return "name".
+    * @param  Reference  $var   Var reference.
+    * @param  integer    $scope Scope.
+    * @return String            Variale name.
+    */
    static function getVariableName(&$var, $scope=0) {
       $old = $var;
       if (($key = array_search($var = 'unique'.rand().'value', !$scope ? $GLOBALS : $scope)) && $var = $old) {
@@ -76,6 +88,11 @@ class J3Utils {
       }
    }
 
+   /**
+    * Get and returns Class Annotations.
+    * @param  String $class Class name.
+    * @return Array         Annotations.
+    */
    static function getClassAnnotations($class) {
       $classAnnotations = array();
       $r = new \ReflectionClass(get_class($class));
@@ -94,6 +111,12 @@ class J3Utils {
       return $classAnnotations;
    }
 
+   /**
+    * Get and returns Method annotations.
+    * @param  String $class  Class name.
+    * @param  String $method Method name.
+    * @return Array         Annotations.
+    */
    static function getMethodAnnotations($class, $method) {
       $methodAnnotations = array();
       $r = new \ReflectionMethod(get_class($class), $method);
@@ -113,6 +136,12 @@ class J3Utils {
    }
 
 
+   /**
+    * Download one file.
+    * @param  String $file File path.
+    * @param  String $type File mime-type
+    * @return void
+    */
    static function downloadFile($file, $type) {
       if (file_exists($file)) {
    		header('Content-Description: File Transfer');
@@ -126,7 +155,6 @@ class J3Utils {
    	}
    	exit(0);
    }
-
 
 }
 
