@@ -12,6 +12,7 @@
  *  3. 2017-07-01: Add constans
  *  4. 2017-07-03: More constans
  *                 Include functions for API repsonses
+ *  5. 2017-07-07: Constans for ini files
  */
 
 namespace J3\Core;
@@ -32,7 +33,10 @@ class J3Utils {
    const DIR_MVC_VIEWS       = J3Utils::DIR_MVC . 'views/';
    const DIR_MVC_LAYOUTS     = J3Utils::DIR_MVC . 'layouts/';
    const DIR_RESOURCES       = 'resources/';
-   const FILE_INI_RESOURCES  = J3Utils::DIR_RESOURCES . 'resources.ini';
+   const FILE_INI_RESOURCES  = J3Utils::DIR_CFG . 'resources.ini';
+   const FILE_INI_APP        = J3Utils::DIR_CFG . 'app.ini';
+   const FILE_INI_DB         = J3Utils::DIR_CFG . 'db.ini';
+   const FILE_INI_MODULES    = J3Utils::DIR_CFG . 'modules.ini';
 
    // Constans: Suffixes
    const SUF_CONTROLLER      = 'Controller';
