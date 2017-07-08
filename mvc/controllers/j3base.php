@@ -1,6 +1,6 @@
 <?php
 
-class J3GenericController extends J3\Core\Mvc\J3Controller {
+class J3BaseController extends J3\Core\Mvc\J3Controller {
       /**
        * Index method
        */

@@ -3,7 +3,7 @@
 /**
  * @Layout test1
  */
-class TestcController extends J3GenericController {
+class TestcController extends J3BaseController {
    public $name = "Test Controller 4";
 
    /**
