@@ -21,6 +21,12 @@ $result = $t->where("field", "value")
             ->orderBy("fieldX", "asc")
             ->get();
 
+foreach ($result as $r) {
+   echo $r->field3;
+}
+
+
+
 New J3:
 -------
 
