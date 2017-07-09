@@ -13,6 +13,9 @@
 namespace J3\Core\Modules\Base\Database;
 
 class J3DbCondition {
+   const SQL_AND        = 'AND';
+   const SQL_OR         = 'OR';
+
    public $sql;
 
    public function __construct($field = null, $operator = null, $value = null) {

@@ -21,12 +21,15 @@ class J3DbModel {
 
    /* Constans */
    const SQL_SELECT     = 'SELECT';
+   const SQL_UPDATE     = 'UPDATE';
+   const SQL_DELETE     = 'DELETE';
+   const SQL_INSERT     = 'INSERT INTO';
+   const SQL_VALUES     = 'VALUES';
    const SQL_FROM       = 'FROM';
    const SQL_WHERE      = 'WHERE';
-   const SQL_AND        = 'AND';
-   const SQL_OR         = 'OR';
    const SQL_ORDERBY    = 'ORDER BY';
    const SQL_GROUPBY    = 'GROUP BY';
+   const SQL_HAVING     = 'HAVING';
 
    /* Attributes */
    private $connection;
@@ -81,7 +84,7 @@ class J3DbModel {
       } else {
          $f = '*';
       }
-      $this->sql = "SELECT $f FROM $this->table";
+      $this->sql = J3DbModel::SQL_SELECT . " $f\n  " . J3DbModel::SQL_FROM . " $this->table";
 
       return $this;
    }
@@ -123,7 +126,7 @@ class J3DbModel {
          array_push($arrv, J3DbCondition::parseValue($value));
       }
 
-      $this->sql = "INSERT INTO $this->table (" . implode(', ', $arrf) .") VALUES (" . implode(', ', $arrv) . ")";
+      $this->sql = J3DbModel::SQL_INSERT . " $this->table (" . implode(', ', $arrf) .") " . J3DbModel::SQL_VALUES . " (" . implode(', ', $arrv) . ")";
 
       return $this;
    }
@@ -136,13 +139,13 @@ class J3DbModel {
          array_push($arr, "$key = " . J3DbCondition::parseValue($value));
       }
 
-      $this->sql = "UPDATE $this->table \nSET " . implode(', ', $arr);
+      $this->sql = J3DbModel::SQL_UPDATE . " $this->table \nSET " . implode(', ', $arr);
 
       return $this;
    }
 
    public function delete() {
-      $this->sql = "DELETE $this->table";
+      $this->sql = J3DbModel::SQL_DELETE . " $this->table";
       return $this;
    }
 
@@ -177,16 +180,16 @@ class J3DbModel {
    }
 
    public function having($what) {
-      $this->having = "HAVING $what";
+      $this->having = J3DbModel::SQL_HAVING . " $what";
 
       return $this;
    }
 
    private function build() {
-      $grp = isset($this->groupBy) ? "\nGROUP BY " . implode(', ',$this->groupBy) : "";
-      $ord = isset($this->orderBy) ? "\nORDER BY " . implode(', ',$this->orderBy) : "";
+      $grp = isset($this->groupBy) ? "\n" . J3DbModel::SQL_GROUPBY . " " . implode(', ',$this->groupBy) : "";
+      $ord = isset($this->orderBy) ? "\n" . J3DbModel::SQL_ORDERBY . " " . implode(', ',$this->orderBy) : "";
       $hav = isset($this->having) ? "\n$this->having" : "";
-      $con = isset($this->condition) ? "\n WHERE ".$this->condition->sql : "";
+      $con = isset($this->condition) ? "\n " . J3DbModel::SQL_WHERE . " ".$this->condition->sql : "";
 
       return "$this->sql $con $grp $hav $ord";
    }
