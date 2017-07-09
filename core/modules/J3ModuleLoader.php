@@ -17,6 +17,11 @@ use J3\Core\Mvc\J3View;
 
 class J3ModuleLoader {
 
+   /**
+    * Load external library from "extra" folder.
+    * @param  String $name PHP File name (without extension).
+    * @return void
+    */
    static function loadExtra($name) {
       if (file_exists(J3Utils::DIR_EXTRAS . $name . '.php')) {
          require_once(J3Utils::DIR_EXTRAS . $name . '.php');

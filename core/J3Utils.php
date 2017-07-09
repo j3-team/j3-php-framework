@@ -13,6 +13,7 @@
  *  4. 2017-07-03: More constans
  *                 Include functions for API repsonses
  *  5. 2017-07-07: Constans for ini files
+ *  6. 2017-07-09: Constans for DB annotations
  */
 
 namespace J3\Core;
@@ -52,6 +53,10 @@ class J3Utils {
    const ANN_METHOD_VIEW        = 'View';
    const ANN_METHOD_RETURN_TYPE = 'ReturnType';
    const ANN_METHOD_MIME_TYPE   = 'MimeType';
+
+   // Constans: DB Model Annotations
+   const ANN_DBMODEL_TABLE      = 'Table';
+   const ANN_DBMODEL_PK         = 'PrimaryKey';
 
    // Constans: Default values
    const DEFAULT_LAYOUT        = 'j3default';

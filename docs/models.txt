@@ -1,33 +1,100 @@
-J3 Legacy:
-----------
+Simple Select:
+-------------
 
 $t = new Table();
-$t->addCondition("field", "value");
-$t->addCondition("field2", "value2");
-$t->setOrderBy("fieldX", "ASC");
-if ($t->doSelectAll()) {
+$t->select()                // No params = SELECT *; params = SELECT f1, f2...
+  ->where("field", "value")
+  ->_and("field2", "value2")
+  ->orderBy("fieldX", "asc");
+
+/*
+SELECT *
+  FROM table
+ WHERE field = 'value'
+   AND field2 = 'value2'
+ORDER BY fieldX ASC
+ */
+
+if ($t->do()) {
    while ($t->next()) {
-      echo $t->getValue("field3");
+      echo $t->field3;
    }
+} else {
+   echo $t->error();
 }
 
 
-Laravel Eloquent:
+Select with grouped conditions:
+-------------------------------
+
+$t = new Table();
+$t->select(["field1", "field2"])
+  ->where(
+      J3DB::cond("field3", "value3")
+      ->_and("field4", "value4")
+  )->_or(
+     J3DB::cond("field3", '<', "value3")
+    ->_and("field4", '>', "value4")
+  );
+
+/*
+SELECT field1, field2
+  FROM table
+ WHERE (field3 = 'value3' AND field4 = 'value4')
+    OR (field3 < 'value3' AND field4 > 'value4')
+ */
+
+
+Select with JOIN:
 -----------------
 
+$t->new Table('t1'); // table alias
+$t->select()
+  ->join('table2 t2', 't1.field', '=', 't2.field2'); // U can use Grouped Conditions
+
+/*
+SELECT *
+  FROM table t1
+  JOIN table2 t2
+       ON t1.field = t2.field2
+ */
+
+
+Delete / update:
+----------------
+
 $t = new Table();
-$result = $t->where("field", "value")
-            ->where("field2", "value2")
-            ->orderBy("fieldX", "asc")
-            ->get();
+$t->delete()
+  ->where(/*conditions*/);  **
 
-foreach ($result as $r) {
-   echo $r->field3;
-}
+$t->update(["field" => "value", "field2" => "value2"])
+  ->where(/*conditions*/)
+
+--------------------------------------------
+/*conditions for all methods*/
+1. Simple equal
+   ('param', 'value')  :  param = 'value'
+
+2. Specific operator
+   ('param', '<=', value)  :  param <= value
+
+3. IN condition
+   ('param', 'IN', ['val1', 'val2'])  :  param IN ('val1', 'val2')
+
+4. Grouped/Advanced codition
+   (J3DB::cond(...)->_and(...)->_or(...))
+
+5.
+---------------------------------------------
 
 
+Sub-Select:
+-----------
 
-New J3:
--------
-
-thinking...
+$t = J3DB::table('table'); // if I don't want create table.php file inside models folder
+$t->select()
+  ->where('param', 'IN', J3DB::table('table2')
+                         ->select(['field2'])
+                         ->where(...)
+                         ->_and(...)
+  )
