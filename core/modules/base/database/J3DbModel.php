@@ -9,6 +9,8 @@
  * @changelog
  *  1. 2017-07-08: Initial version
  *  2. 2017-07-09: Initial version continue...
+ *  3. 2017-07-15: Renamed methods
+ *                 Documentation
  */
 
 namespace J3\Core\Modules\Base\Database;
@@ -74,7 +76,12 @@ class J3DbModel {
       }
    }
 
-   public function select($fields = array()) {
+   /**
+    * Starts one SELECT query.
+    * @param  array  $fields Fields to select. '*' if doesn't set
+    * @return J3DbModel      This object
+    */
+   public function _select($fields = array()) {
       $this->isSelect = true;
 
       if (!is_array($fields)) {
@@ -89,14 +96,14 @@ class J3DbModel {
       return $this;
    }
 
-   public function where($field = null, $operator = null, $params = null) {
+   public function _where($field = null, $operator = null, $params = null) {
       $this->condition = new J3DbCondition($field, $operator, $params);
       return $this;
    }
 
    public function _and($field, $operator = null, $params = null) {
       if (!isset($this->condition)) {
-         return $this->where($field, $operator, $params);
+         return $this->_where($field, $operator, $params);
       } else {
          $this->condition->_and($field, $operator, $params);
          return $this;
@@ -105,7 +112,7 @@ class J3DbModel {
 
    public function _or($field, $operator = null, $params = null) {
       if (!isset($this->condition)) {
-         return $this->where($field, $operator, $params);
+         return $this->_where($field, $operator, $params);
       } else {
          $this->condition->_or($field, $operator, $params);
          return $this;
@@ -116,7 +123,7 @@ class J3DbModel {
       // TODO
    }
 
-   public function insert($values = array()) {
+   public function _insert($values = array()) {
       $this->isSelect = false;
 
       $arrf = array();
@@ -131,7 +138,7 @@ class J3DbModel {
       return $this;
    }
 
-   public function update($sets = array()) {
+   public function _update($sets = array()) {
       $this->isSelect = false;
 
       $arr = array();
@@ -144,12 +151,12 @@ class J3DbModel {
       return $this;
    }
 
-   public function delete() {
+   public function _delete() {
       $this->sql = J3DbModel::SQL_DELETE . " $this->table";
       return $this;
    }
 
-   public function orderBy($field, $order = null) {
+   public function _orderBy($field, $order = null) {
       if (!isset($this->orderBy)) {
          $this->orderBy = array();
       }
@@ -163,7 +170,7 @@ class J3DbModel {
       return $this;
    }
 
-   public function groupBy($field) {
+   public function _groupBy($field) {
       if (!isset($this->groupBy)) {
          $this->groupBy = array();
       }
@@ -179,7 +186,7 @@ class J3DbModel {
       return $this;
    }
 
-   public function having($what) {
+   public function _having($what) {
       $this->having = J3DbModel::SQL_HAVING . " $what";
 
       return $this;

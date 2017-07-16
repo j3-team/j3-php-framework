@@ -2,8 +2,8 @@ Simple Select:
 -------------
 
 $t = new Table();
-$t->select()                // No params = SELECT *; params = SELECT f1, f2...
-  ->where("field", "value")
+$t->_select()                // No params = SELECT *; params = SELECT f1, f2...
+  ->_where("field", "value")
   ->_and("field2", "value2")
   ->orderBy("fieldX", "asc");
 
@@ -28,8 +28,8 @@ Select with grouped conditions:
 -------------------------------
 
 $t = new Table();
-$t->select(["field1", "field2"])
-  ->where(
+$t->_select(["field1", "field2"])
+  ->_where(
       J3DB::cond("field3", "value3")
       ->_and("field4", "value4")
   )->_or(
@@ -49,8 +49,8 @@ Select with JOIN:
 -----------------
 
 $t->new Table('t1'); // table alias
-$t->select()
-  ->join('table2 t2', 't1.field', '=', 't2.field2'); // U can use Grouped Conditions
+$t->_select()
+  ->_join('table2 t2', 't1.field', '=', 't2.field2'); // U can use Grouped Conditions
 
 /*
 SELECT *
@@ -64,11 +64,11 @@ Delete / update:
 ----------------
 
 $t = new Table();
-$t->delete()
-  ->where(/*conditions*/);  **
+$t->_delete()
+  ->_where(/*conditions*/);  **
 
-$t->update(["field" => "value", "field2" => "value2"])
-  ->where(/*conditions*/)
+$t->_update(["field" => "value", "field2" => "value2"])
+  ->_where(/*conditions*/)
 
 --------------------------------------------
 /*conditions for all methods*/
@@ -92,9 +92,9 @@ Sub-Select:
 -----------
 
 $t = J3DB::table('table'); // if I don't want create table.php file inside models folder
-$t->select()
-  ->where('param', 'IN', J3DB::table('table2')
-                         ->select(['field2'])
-                         ->where(...)
+$t->_select()
+  ->_where('param', 'IN', J3DB::table('table2')
+                         ->_select(['field2'])
+                         ->_where(...)
                          ->_and(...)
   )
