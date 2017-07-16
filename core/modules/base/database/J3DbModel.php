@@ -96,11 +96,25 @@ class J3DbModel {
       return $this;
    }
 
+   /**
+    * Adds WHERE reserved word in order to starts SQL conditions
+    * @param  Mixed   $field    Condition field / Another J3DbCondition object
+    * @param  String $operator  Operator / value
+    * @param  Mixed  $value     value of condition (String, number, array, J3DbModel)
+    * @return J3DbModel         This object
+    */
    public function _where($field = null, $operator = null, $params = null) {
       $this->condition = new J3DbCondition($field, $operator, $params);
       return $this;
    }
 
+   /**
+    * Adds next SQL condition with AND relationship
+    * @param  Mixed   $field    Condition field / Another J3DbCondition object
+    * @param  String $operator  Operator / value
+    * @param  Mixed  $value     value of condition (String, number, array, J3DbModel)
+    * @return J3DbModel         This object
+    */
    public function _and($field, $operator = null, $params = null) {
       if (!isset($this->condition)) {
          return $this->_where($field, $operator, $params);
@@ -110,6 +124,13 @@ class J3DbModel {
       }
    }
 
+   /**
+    * Adds next SQL condition with OR relationship
+    * @param  Mixed   $field    Condition field / Another J3DbCondition object
+    * @param  String $operator  Operator / value
+    * @param  Mixed  $value     value of condition (String, number, array, J3DbModel)
+    * @return J3DbModel         This object
+    */
    public function _or($field, $operator = null, $params = null) {
       if (!isset($this->condition)) {
          return $this->_where($field, $operator, $params);
@@ -119,10 +140,11 @@ class J3DbModel {
       }
    }
 
-   public function _do() {
-      // TODO
-   }
-
+   /**
+    * Starts one INSERT statement.
+    * @param  array  $values Values to insert (field => value, field2 => value2 ...)
+    * @return J3DbModel      This object
+    */
    public function _insert($values = array()) {
       $this->isSelect = false;
 
@@ -138,6 +160,11 @@ class J3DbModel {
       return $this;
    }
 
+   /**
+    * Starts one UPDATE statement.
+    * @param  array  $values Values to update (field => value, field2 => value2 ...)
+    * @return J3DbModel      This object
+    */
    public function _update($sets = array()) {
       $this->isSelect = false;
 
@@ -151,18 +178,25 @@ class J3DbModel {
       return $this;
    }
 
+   /**
+    * Starts one DELETE statement.
+    * @return J3DbModel      This object
+    */
    public function _delete() {
       $this->sql = J3DbModel::SQL_DELETE . " $this->table";
       return $this;
    }
 
-   public function _orderBy($field, $order = null) {
+   /**
+    * Adds ORDER BY instruction. This method can be invoqued many times,
+    * one for every field to order
+    * @param  string   $field    Field to order by.
+    * @param  string   $order    Order. Default is 'ASC'
+    * @return J3DbModel          This object
+    */
+   public function _orderBy($field, $order = 'ASC') {
       if (!isset($this->orderBy)) {
          $this->orderBy = array();
-      }
-
-      if (!isset($order)) {
-         $order = 'ASC';
       }
 
       array_push($this->orderBy, "$field $order");
@@ -170,6 +204,11 @@ class J3DbModel {
       return $this;
    }
 
+   /**
+    * Adds GROUP BY instruction
+    * @param  string   $field    Field to group.
+    * @return J3DbModel          This object
+    */
    public function _groupBy($field) {
       if (!isset($this->groupBy)) {
          $this->groupBy = array();
@@ -186,12 +225,21 @@ class J3DbModel {
       return $this;
    }
 
+   /**
+    * Adds HAVING instruction
+    * @param  string   $what    Having condition in RAW mode
+    * @return J3DbModel         This object
+    */
    public function _having($what) {
       $this->having = J3DbModel::SQL_HAVING . " $what";
 
       return $this;
    }
 
+   /**
+    * Builds SQL query/statement
+    * @return string    SQL text
+    */
    private function build() {
       $grp = isset($this->groupBy) ? "\n" . J3DbModel::SQL_GROUPBY . " " . implode(', ',$this->groupBy) : "";
       $ord = isset($this->orderBy) ? "\n" . J3DbModel::SQL_ORDERBY . " " . implode(', ',$this->orderBy) : "";
@@ -201,8 +249,20 @@ class J3DbModel {
       return "$this->sql $con $grp $hav $ord";
    }
 
+   /**
+    * Builds and returns SQL query/statement.
+    * @return string    SQL text
+    */
    public function sql() {
       return $this->build();
+   }
+
+   /**
+    * Runs SQL query/statement into database.
+    * @return boolean    Operation successful
+    */
+   public function _do() {
+      // TODO do method for DB Model
    }
 
 }
