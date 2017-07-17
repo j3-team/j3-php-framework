@@ -34,6 +34,8 @@ class J3Utils {
    const DIR_MVC_VIEWS       = J3Utils::DIR_MVC . 'views/';
    const DIR_MVC_LAYOUTS     = J3Utils::DIR_MVC . 'layouts/';
    const DIR_RESOURCES       = 'resources/';
+
+   // Constans: INI Files
    const FILE_INI_RESOURCES  = J3Utils::DIR_CFG . 'resources.ini';
    const FILE_INI_APP        = J3Utils::DIR_CFG . 'app.ini';
    const FILE_INI_DB         = J3Utils::DIR_CFG . 'db.ini';

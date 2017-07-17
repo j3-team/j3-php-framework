@@ -10,6 +10,7 @@
  * @changelog
  *  1. 2017-07-08: Initial version
  *  2. 2017-07-15: Documentation
+ *  3. 2017-07-16: 'load' method implementation
  */
 
 namespace J3\Core\Modules\Base\Database;
@@ -19,14 +20,22 @@ require_once "J3DbCondition.php";
 
 class J3DB {
 
-   private static $connections = array();
+   public static $connections = array();
+   public static $currentdb;
 
    /**
     * Load all database settings in db.ini file.
     * @return void
     */
    public static function load() {
-      //TODO load databases from db.ini file
+      $ini_array = parse_ini_file(J3Utils::FILE_INI_DB, true);
+      foreach ($ini_array as $key => $arr) {
+         $mod = $arr['db_module'];
+         // TODO load DB module using $mod variable
+         $conn = new J3DbConnection($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
+
+         J3DB::connections[$key] = $conn;
+      }
    }
 
    /**
@@ -35,7 +44,9 @@ class J3DB {
     * @return void
     */
    public static function useDB($database) {
-      //TODO change default database in use
+      if (isset(J3DB::connections[$database])) {
+         J3DB::currentdb = J3DB::connections[$database];
+      }
    }
 
    /**

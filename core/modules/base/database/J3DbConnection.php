@@ -9,30 +9,39 @@
  * @changelog
  *  1. 2017-07-08: Initial version
  *  2. 2017-07-15: Documentation
-  */
+ *  3. 2017-07-16: Constructor implementation
+ */
 
 namespace J3\Core\Modules\Base\Database;
 
 use J3\Core\J3Utils;
 
 class J3DbConnection {
-   private $id; // section identification (db.ini file
    private $dbconnection;
    private $host;
    private $port;
    private $schema;
-   private $database;
    private $username;
    private $password;
    private $persistence;
    private $error;
 
    /**
-    * Init connection values from db.ini file.
-    * @param string $id Connection name.
+    * Init connection values.
+    * @param string  $host        Database hostname / IP
+    * @param integer $port        Database port number
+    * @param string  $schema      Database or schema name
+    * @param string  $user        User name
+    * @param string  $pass        Pasword
+    * @param boolean $persistence Make database connection with persistence (if is possible)
     */
-   public function __construct($id) {
-      // TODO look for $id within db.ini file
+   public function __construct($host, $port, $schema, $user, $pass, $persistence = false) {
+      $this->host = $host;
+      $this->port = $port;
+      $this->schema = $schema;
+      $this->username = $user;
+      $this->password = $pass;
+      $this->persistence = $persistence;
    }
 
    /**
