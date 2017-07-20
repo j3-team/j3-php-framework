@@ -8,6 +8,7 @@
  *
  * @changelog
  *  1. 2017-03-13: Initial version
+ *  2. 2017-07-20: Replace "strings" for 'strings'
  */
 
 namespace J3;
@@ -20,23 +21,23 @@ use J3\Core\J3Utils;
 /* Validate parameters */
 
 // 1. pController doesn't exist
-if (!isset($_REQUEST["pController"]) || $_REQUEST["pController"] == "") {
+if (!isset($_REQUEST['pController']) || $_REQUEST['pController'] == '') {
    J3Core::welcome();
    exit(0);
 }
 
 // 2. pController exists
-$c = $_REQUEST["pController"];
+$c = $_REQUEST['pController'];
 
-if ($c == "sitemap.xml") {
+if ($c == 'sitemap.xml') {
    J3Core::sitemap();
 }
 
-if ($c == "robots.txt") {
+if ($c == 'robots.txt') {
    J3Core::robots();
 }
 
-if ($c == "phpinfo") {
+if ($c == 'phpinfo') {
    J3Core::phpinfo();
 }
 
@@ -44,12 +45,12 @@ if ($c == "phpinfo") {
 $m = null;
 $o = null;
 
-if (isset($_REQUEST["pMethod"])) {
-   $m = $_REQUEST["pMethod"];
+if (isset($_REQUEST['pMethod'])) {
+   $m = $_REQUEST['pMethod'];
 }
 
-if (isset($_REQUEST["pOthers"])) {
-   $o = $_REQUEST["pOthers"];
+if (isset($_REQUEST['pOthers'])) {
+   $o = $_REQUEST['pOthers'];
 }
 
 J3Core::processRequest($c, $m, $o);

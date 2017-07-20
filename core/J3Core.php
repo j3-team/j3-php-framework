@@ -60,10 +60,10 @@ class J3Core {
             exit(0);
          }
 
-         if (file_exists(J3Utils::DIR_MVC_CONTROLLERS . $controller . ".php")) {
+         if (file_exists(J3Utils::DIR_MVC_CONTROLLERS . $controller . '.php')) {
 
             //instantiate controller object
-            require_once(J3Utils::DIR_MVC_CONTROLLERS . $controller . ".php");
+            require_once(J3Utils::DIR_MVC_CONTROLLERS . $controller . '.php');
             $className = strtoupper($controller[0]) . substr($controller, 1) . J3Utils::SUF_CONTROLLER;
             if (!class_exists($className, false)) {
                 J3View::warning("Class <strong>$className</strong> not defined.");

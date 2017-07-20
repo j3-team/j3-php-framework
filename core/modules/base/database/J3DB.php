@@ -11,6 +11,7 @@
  *  1. 2017-07-08: Initial version
  *  2. 2017-07-15: Documentation
  *  3. 2017-07-16: 'load' method implementation
+ *  4. 2017-07-20: Load specific database module
  */
 
 namespace J3\Core\Modules\Base\Database;
@@ -31,8 +32,9 @@ class J3DB {
       $ini_array = parse_ini_file(J3Utils::FILE_INI_DB, true);
       foreach ($ini_array as $key => $arr) {
          $mod = $arr['db_module'];
-         // TODO load DB module using $mod variable
-         $conn = new J3DbConnection($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
+
+         $ini_array = J3ModuleLoader::loadModule(J3Utils::MOD_TYPE_DATABASE, $mod);
+         $conn = new $ini_array['connection_class']($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
 
          J3DB::connections[$key] = $conn;
       }
