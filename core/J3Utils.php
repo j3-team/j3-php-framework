@@ -14,6 +14,7 @@
  *                 Include functions for API repsonses
  *  5. 2017-07-07: Constans for ini files
  *  6. 2017-07-09: Constans for DB annotations
+ *  7. 2017-07-20: Modules coding
  */
 
 namespace J3\Core;
@@ -40,6 +41,7 @@ class J3Utils {
    const FILE_INI_APP        = J3Utils::DIR_CFG . 'app.ini';
    const FILE_INI_DB         = J3Utils::DIR_CFG . 'db.ini';
    const FILE_INI_MODULES    = J3Utils::DIR_CFG . 'modules.ini';
+   const FILE_INI_MOD        = 'mod.ini';
 
    // Constans: Suffixes
    const SUF_CONTROLLER      = 'Controller';
@@ -63,6 +65,65 @@ class J3Utils {
    // Constans: Default values
    const DEFAULT_LAYOUT        = 'j3default';
    const DEFAULT_CONTROLLER    = 'j3base';
+
+   // Constans: Module types
+   const MOD_TYPE_API          = 'api';
+   const MOD_TYPE_CLI          = 'cli';
+   const MOD_TYPE_DATABASE     = 'database';
+   const MOD_TYPE_FILE         = 'file';
+   const MOD_TYPE_I18N         = 'i18n';
+   const MOD_TYPE_LOGGING      = 'logging';
+   const MOD_TYPE_MAIL         = 'mail';
+   const MOD_TYPE_REQUEST      = 'request';
+   const MOD_TYPE_SECURITY     = 'security';
+   const MOD_TYPE_SERVICE      = 'service';
+   const MOD_TYPE_UI           = 'ui';
+   const MOD_TYPE_WIZARD       = 'wizard';
+
+   // Constants: Module INI sections
+   const MOD_INI_SECTION_MODULE  = 'module';
+   const MOD_INI_SECTION_CUSTOM  = 'custom';
+
+   // Constants: Module keys (INI files). 1 => required
+   const KEYS_MOD_API = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_CLI = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_DATABASE = array(
+      'connection_file' => 1,
+      'connection_class' => 1,
+      'model_file' => 0,
+      'model_class' => 0
+   );
+   const KEYS_MOD_FILE = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_I18N = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_LOGGING = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_MAIL = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_REQUEST = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_SECURITY = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_SERVICE = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_UI = array(
+      // TODO define keys
+   );
+   const KEYS_MOD_WIZARD = array(
+      // TODO define keys
+   );
 
 
    /* ---- UTILS METHODS ---- */

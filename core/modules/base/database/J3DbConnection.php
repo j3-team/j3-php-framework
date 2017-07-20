@@ -17,14 +17,14 @@ namespace J3\Core\Modules\Base\Database;
 use J3\Core\J3Utils;
 
 class J3DbConnection {
-   private $dbconnection;
-   private $host;
-   private $port;
-   private $schema;
-   private $username;
-   private $password;
-   private $persistence;
-   private $error;
+   protected $dbconnection;
+   protected $host;
+   protected $port;
+   protected $schema;
+   protected $username;
+   protected $password;
+   protected $persistence;
+   protected $error;
 
    /**
     * Init connection values.
