@@ -23,6 +23,8 @@ class J3DB {
 
    public static $connections = array();
    public static $currentdb;
+   public static $models = array();
+   public static $dbmodel;
 
    /**
     * Load all database settings in db.ini file.
@@ -35,8 +37,13 @@ class J3DB {
 
          $ini_array = J3ModuleLoader::loadModule(J3Utils::MOD_TYPE_DATABASE, $mod);
          $conn = new $ini_array['connection_class']($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
-
          J3DB::connections[$key] = $conn;
+
+         if (isset($ini_array['model_class'])) {
+            J3DB::$models[$key] = $ini_array['model_class'];
+         } else {
+            J3DB::$models[$key] = 'J3DbModel';
+         }
       }
    }
 
@@ -48,6 +55,7 @@ class J3DB {
    public static function useDB($database) {
       if (isset(J3DB::connections[$database])) {
          J3DB::currentdb = J3DB::connections[$database];
+         J3DB::dbmodel = J3DB::models[$database];
       }
    }
 
