@@ -30,6 +30,10 @@ class J3Utils {
    const DIR_LOGS            = 'logs/';
    const DIR_MODULES         = 'modules/';
    const DIR_MVC             = 'mvc/';
+   const DIR_CORE_CFG        = J3Utils::DIR_CORE . 'cfg/';
+   const DIR_CORE_MODULES    = J3Utils::DIR_CORE . 'modules/';
+   const DIR_CORE_MOD_BASE   = J3Utils::DIR_CORE_MODULES . 'base/';
+   const DIR_CORE_MVC        = J3Utils::DIR_CORE . 'mvc/';
    const DIR_MVC_CONTROLLERS = J3Utils::DIR_MVC . 'controllers/';
    const DIR_MVC_MODELS      = J3Utils::DIR_MVC . 'models/';
    const DIR_MVC_VIEWS       = J3Utils::DIR_MVC . 'views/';
@@ -61,6 +65,7 @@ class J3Utils {
    // Constans: DB Model Annotations
    const ANN_DBMODEL_TABLE      = 'Table';
    const ANN_DBMODEL_PK         = 'PrimaryKey';
+   const ANN_DBMODEL_DATABASE   = 'Database';
 
    // Constans: Default values
    const DEFAULT_LAYOUT        = 'j3default';
@@ -127,6 +132,10 @@ class J3Utils {
       // TODO define keys
    );
 
+   // Constans: Files to load for every mod type
+   const FILES_MODULE_TYPES = array (
+      'database' => 'J3DB.php'
+   );
 
    /* ---- UTILS METHODS ---- */
 

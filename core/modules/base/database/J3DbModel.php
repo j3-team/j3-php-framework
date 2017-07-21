@@ -37,6 +37,7 @@ class J3DbModel {
    private $connection;
    private $table;
    private $pk;
+   private $database = 'default';
 
    private $sql;
    private $isSelect = true;
@@ -55,6 +56,8 @@ class J3DbModel {
             $this->table = $value;
          } else if ($key === J3Utils::ANN_DBMODEL_PK) {
             $this->pk = $value;
+         } else if ($key === J3Utils::ANN_DBMODEL_DATABASE) {
+            $this->database = $value;
          }
 
          if ($withValue === true && ($value === "" || !isset($value) || $value === null)) {
@@ -73,6 +76,15 @@ class J3DbModel {
 
       if (isset($alias)) {
          $this->table = $this->table . " $alias";
+      }
+
+      // try connect
+      J3DB::load();
+      J3DB::useDB($this->database);
+      $this->connection = J3DB::currentdb;
+      if (!$this->connection->connect()) {
+         J3View::warning($this->connection->lastError());
+         exit(0);
       }
    }
 

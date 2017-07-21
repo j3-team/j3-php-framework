@@ -82,7 +82,8 @@ class J3ModuleLoader {
       }
 
       // process specific settings for every module type
-      return J3ModuleLoader::load_mod_$type($ini_array);
+      $method = "load_mod_$type";
+      return J3ModuleLoader::$method($ini_array);
    }
 
 
@@ -93,7 +94,8 @@ class J3ModuleLoader {
     * @return boolean           File OK
     */
    static function check_ini_keys($ini_array, $mod_type) {
-      $arr_keys = J3Utils::KEYS_MOD_$mod_type;
+      $var = "KEYS_MOD_$mod_type";
+      $arr_keys = J3Utils::$var;
 
       foreach ($arr_keys as $key => $required) {
          if ($required === 1) {
@@ -122,7 +124,7 @@ class J3ModuleLoader {
     * @return void
     */
    static function load_ini_file() {
-      if (!isset(J3ModuleLoader::mod_ini)) {
+      if (J3ModuleLoader::mod_ini === null) {
          $mod_ini = parse_ini_file(J3Utils::FILE_INI_MODULES, true);
       }
    }
@@ -135,7 +137,7 @@ class J3ModuleLoader {
     */
    static function is_mod_allowed($type, $mod) {
       J3ModuleLoader::load_ini_file();
-      if (!isset(J3ModuleLoader::mod_ini[$type])) {
+      if (J3ModuleLoader::mod_ini[$type] === null) {
          J3View::warning("Module type <strong>$type</strong> not reconigzed.");
          return false;
       }

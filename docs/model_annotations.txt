@@ -1,0 +1,6 @@
+Model Annotations:
+------------------
+
+- Table        : Set table name. If not defined, use same name of class.
+- PrimaryKey   : Set Primary Key of this table.
+- Database     : Set Database name (see db.ini file). If not set, use 'default'.

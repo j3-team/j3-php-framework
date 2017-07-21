@@ -79,6 +79,12 @@ class TestcController extends J3BaseController {
 
       return 258;
    }
+
+
+   public function seven() {
+      $tabla = J3DB::table('mensaje');
+      
+   }
 }
 
 

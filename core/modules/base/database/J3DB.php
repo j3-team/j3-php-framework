@@ -31,6 +31,10 @@ class J3DB {
     * @return void
     */
    public static function load() {
+      if (sizeof(J3DB::connections) > 0) {
+         return;
+      }
+
       $ini_array = parse_ini_file(J3Utils::FILE_INI_DB, true);
       foreach ($ini_array as $key => $arr) {
          $mod = $arr['db_module'];
@@ -45,6 +49,8 @@ class J3DB {
             J3DB::$models[$key] = 'J3DbModel';
          }
       }
+
+      J3DB::useDB('default');
    }
 
    /**
@@ -88,6 +94,7 @@ class J3DB {
    public static function table($name, $alias = '') {
       return new J3DbModel($alias, $name);
    }
+
 }
 
 ?>
