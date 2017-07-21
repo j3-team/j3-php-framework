@@ -18,6 +18,8 @@ use J3\Core\Mvc\J3View;
 
 class J3ModuleLoader {
 
+   public static $mod_ini;
+
    /**
     * Loads external library from "extra" folder.
     * @param  String $name PHP File name (without extension).
@@ -38,41 +40,49 @@ class J3ModuleLoader {
     * @return array        Module settings
     */
    static function loadModule($type, $mod) {
+      // verify enabled
+      if (!J3ModuleLoader::is_mod_allowed($type, $mod)) {
+         return false;
+      }
+
+      // get module path
       $path = J3Utils::DIR_MODULES . $type . '/' . $mod;
-      if (file_exists($path)) {
-         if (file_exists($path . '/' . J3Utils::FILE_INI_MOD)) {
-            $ini_array = parse_ini_file($path . '/' . J3Utils::FILE_INI_MOD, true);
 
-            // check ini file keys...
-            if (!J3ModuleLoader::check_ini_keys($ini_array[J3Utils::MOD_INI_SECTION_MODULE], strtoupper($type))) {
-               return false;
-            }
-
-            // require_once for file keys
-            foreach ($$ini_array[J3Utils::MOD_INI_SECTION_MODULE] as $key => $value) {
-               if (strpos($key, '_file') > 0) {
-                  if (file_exists("$path/$value")) {
-                     require_once "$path/$value";
-                  } else {
-                     J3View::warning("File <strong>$path/$value</strong> not found.");
-                     return false;
-                     // TODO evaluate if use exit instead warning
-                  }
-               }
-            }
-
-            // process specific settings for every module type
-            return J3ModuleLoader::load_mod_$type($ini_array);
-         } else {
-            J3View::warning("File <strong>mod.ini</strong> for module <strong>$type/$mod</strong> not found.");
-            return false;
-            // TODO evaluate if use exit instead warning
-         }
-      } else {
+      // verify path
+      if (!file_exists($path)) {
          J3View::warning("Module <strong>$type/$mod</strong> not found.");
          return false;
-         // TODO evaluate if use exit instead warning
       }
+
+      // verify file
+      if (!file_exists($path . '/' . J3Utils::FILE_INI_MOD)) {
+         J3View::warning("File <strong>mod.ini</strong> for module <strong>$type/$mod</strong> not found.");
+         return false;
+      }
+
+      // load module settings
+      $ini_array = parse_ini_file($path . '/' . J3Utils::FILE_INI_MOD, true);
+
+      // check ini file keys...
+      if (!J3ModuleLoader::check_ini_keys($ini_array[J3Utils::MOD_INI_SECTION_MODULE], strtoupper($type))) {
+         return false;
+      }
+
+      // require_once for file keys
+      foreach ($$ini_array[J3Utils::MOD_INI_SECTION_MODULE] as $key => $value) {
+         if (strpos($key, '_file') > 0) {
+            if (file_exists("$path/$value")) {
+               require_once "$path/$value";
+            } else {
+               J3View::warning("File <strong>$path/$value</strong> not found.");
+               return false;
+               // TODO evaluate if use exit instead warning
+            }
+         }
+      }
+
+      // process specific settings for every module type
+      return J3ModuleLoader::load_mod_$type($ini_array);
    }
 
 
@@ -106,6 +116,43 @@ class J3ModuleLoader {
       return true;
    }
 
+
+   /**
+    * Loads modules.ini file
+    * @return void
+    */
+   static function load_ini_file() {
+      if (!isset(J3ModuleLoader::mod_ini)) {
+         $mod_ini = parse_ini_file(J3Utils::FILE_INI_MODULES, true);
+      }
+   }
+
+   /**
+    * Verify if module and module type are enabled for load in modules.ini file
+    * @param  string $type Module type
+    * @param  string $mod  Module name
+    * @return boolean      Allowed both
+    */
+   static function is_mod_allowed($type, $mod) {
+      J3ModuleLoader::load_ini_file();
+      if (!isset(J3ModuleLoader::mod_ini[$type])) {
+         J3View::warning("Module type <strong>$type</strong> not reconigzed.");
+         return false;
+      }
+
+      if (J3ModuleLoader::mod_ini[$type][J3Utils::MOD_INI_KEY_ENABLED] === 0) {
+         J3View::warning("Module type <strong>$type</strong> not enabled.");
+         return false;
+      }
+
+      $arr_mods = explode(',', J3ModuleLoader::mod_ini[$type][J3Utils::MOD_INI_KEY_LOAD]);
+      if (!ini_array($mod, $arr_mods)) {
+         J3View::warning("Module <strong>$type/$mod</strong> not enabled.");
+         return false;
+      }
+
+      return true;
+   }
 
    /* FUNCTIONS TO LOAD SPECIFIC MODULE TYPE */
 

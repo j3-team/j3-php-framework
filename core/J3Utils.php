@@ -83,6 +83,8 @@ class J3Utils {
    // Constants: Module INI sections
    const MOD_INI_SECTION_MODULE  = 'module';
    const MOD_INI_SECTION_CUSTOM  = 'custom';
+   const MOD_INI_KEY_ENABLED     = 'enabled';
+   const MOD_INI_KEY_LOAD        = 'load';
 
    // Constants: Module keys (INI files). 1 => required
    const KEYS_MOD_API = array(

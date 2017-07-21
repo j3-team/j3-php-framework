@@ -24,7 +24,7 @@ class J3DB {
    public static $connections = array();
    public static $currentdb;
    public static $models = array();
-   public static $dbmodel;
+   public static $dbmodel = 'J3DbModel';
 
    /**
     * Load all database settings in db.ini file.
