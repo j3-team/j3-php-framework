@@ -14,7 +14,7 @@ namespace J3\Modules\Database\Pgsql;
 
 use J3\Core\Modules\Base\Database\J3DbConnection;
 
-class J3DbPgsqlConnection {
+class J3DbPgsqlConnection extends J3DbConnection {
 
    /**
     * Try Connect to database
@@ -22,14 +22,16 @@ class J3DbPgsqlConnection {
     */
    public function connect() {
       if ( $this->persistence == 0 ) {
-			$this->gbconnection = pg_connect("host=$this->host port=$this->port user=$this->username password=$this->password dbname=$this->schema");
+			$this->dbconnection = pg_connect("host=$this->host port=$this->port user=$this->username password=$this->password dbname=$this->schema");
 		} else {
 			$this->dbconnection = pg_pconnect("host=$this->host port=$this->port user=$this->username password=$this->password dbname=$this->schema");
 		}
 
-      if (!$this->connection)	{
+      if (!$this->dbconnection)	{
 			return false;
 		}
+
+      return true;
    }
 
    /**
@@ -93,7 +95,7 @@ class J3DbPgsqlConnection {
     * @return boolean
     */
    public function prepare($sql) {
-      
+
    }
 
    /**

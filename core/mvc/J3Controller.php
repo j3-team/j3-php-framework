@@ -56,6 +56,9 @@ class J3Controller {
             J3View::warning("Annotation <strong>$key</strong> must have a value.");
          }
       }
+
+      // Module load
+      J3ModuleLoader::init();
    }
 
 

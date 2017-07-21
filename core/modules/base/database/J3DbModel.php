@@ -81,11 +81,14 @@ class J3DbModel {
       // try connect
       J3DB::load();
       J3DB::useDB($this->database);
-      $this->connection = J3DB::currentdb;
+      $this->connection = J3DB::$currentdb;
       if (!$this->connection->connect()) {
-         J3View::warning($this->connection->lastError());
-         exit(0);
+         throw new \Exception($this->dbLastError());
       }
+   }
+
+   public function dbLastError() {
+      return $this->connection->lastError();
    }
 
    /**

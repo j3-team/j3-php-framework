@@ -134,7 +134,9 @@ class J3Utils {
 
    // Constans: Files to load for every mod type
    const FILES_MODULE_TYPES = array (
-      'database' => 'J3DB.php'
+      J3Utils::MOD_TYPE_DATABASE => array(
+         'J3DB.php'
+      )
    );
 
    /* ---- UTILS METHODS ---- */

@@ -18,7 +18,7 @@ use J3\Core\Mvc\J3View;
 
 class J3ModuleLoader {
 
-   public static $mod_ini;
+   public static $mod_ini = array();
 
    /**
     * Loads external library from "extra" folder.
@@ -69,7 +69,7 @@ class J3ModuleLoader {
       }
 
       // require_once for file keys
-      foreach ($$ini_array[J3Utils::MOD_INI_SECTION_MODULE] as $key => $value) {
+      foreach ($ini_array[J3Utils::MOD_INI_SECTION_MODULE] as $key => $value) {
          if (strpos($key, '_file') > 0) {
             if (file_exists("$path/$value")) {
                require_once "$path/$value";
@@ -95,7 +95,8 @@ class J3ModuleLoader {
     */
    static function check_ini_keys($ini_array, $mod_type) {
       $var = "KEYS_MOD_$mod_type";
-      $arr_keys = J3Utils::$var;
+      $utils = new \ReflectionClass('\J3\Core\J3Utils');
+      $arr_keys = $utils->getConstant($var);
 
       foreach ($arr_keys as $key => $required) {
          if ($required === 1) {
@@ -124,8 +125,17 @@ class J3ModuleLoader {
     * @return void
     */
    static function load_ini_file() {
-      if (J3ModuleLoader::mod_ini === null) {
-         $mod_ini = parse_ini_file(J3Utils::FILE_INI_MODULES, true);
+      if (sizeof(J3ModuleLoader::$mod_ini) === 0) {
+         J3ModuleLoader::$mod_ini = parse_ini_file(J3Utils::FILE_INI_MODULES, true);
+      }
+   }
+
+   static function init() {
+      J3ModuleLoader::load_ini_file();
+      foreach (J3ModuleLoader::$mod_ini as $key => $value) {
+         if ($value[J3Utils::MOD_INI_KEY_ENABLED] == 1) {
+            J3ModuleLoader::load_module_files($key);
+         }
       }
    }
 
@@ -137,23 +147,37 @@ class J3ModuleLoader {
     */
    static function is_mod_allowed($type, $mod) {
       J3ModuleLoader::load_ini_file();
-      if (J3ModuleLoader::mod_ini[$type] === null) {
+      if (J3ModuleLoader::$mod_ini[$type] === null) {
          J3View::warning("Module type <strong>$type</strong> not reconigzed.");
          return false;
       }
 
-      if (J3ModuleLoader::mod_ini[$type][J3Utils::MOD_INI_KEY_ENABLED] === 0) {
+      if (J3ModuleLoader::$mod_ini[$type][J3Utils::MOD_INI_KEY_ENABLED] === 0) {
          J3View::warning("Module type <strong>$type</strong> not enabled.");
          return false;
       }
 
-      $arr_mods = explode(',', J3ModuleLoader::mod_ini[$type][J3Utils::MOD_INI_KEY_LOAD]);
-      if (!ini_array($mod, $arr_mods)) {
+      $arr_mods = explode(',', J3ModuleLoader::$mod_ini[$type][J3Utils::MOD_INI_KEY_LOAD]);
+      if (!in_array($mod, $arr_mods)) {
          J3View::warning("Module <strong>$type/$mod</strong> not enabled.");
          return false;
       }
 
       return true;
+   }
+
+   /**
+    * Load files base for one type of module
+    * @param  string $type Module type
+    * @return void
+    */
+   static function load_module_files($type) {
+      // TODO Evaluate if rename this function
+      if (J3Utils::FILES_MODULE_TYPES[$type] !== null) {
+         foreach (J3Utils::FILES_MODULE_TYPES[$type] as $key => $file) {
+            require_once(J3Utils::DIR_CORE_MOD_BASE . "$type/$file");
+         }
+      }
    }
 
    /* FUNCTIONS TO LOAD SPECIFIC MODULE TYPE */

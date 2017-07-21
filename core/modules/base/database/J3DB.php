@@ -18,6 +18,11 @@ namespace J3\Core\Modules\Base\Database;
 
 require_once "J3DbRaw.php";
 require_once "J3DbCondition.php";
+require_once "J3DbConnection.php";
+require_once "J3DbModel.php";
+
+use J3\Core\J3Utils;
+use J3\Core\Modules\J3ModuleLoader;
 
 class J3DB {
 
@@ -31,7 +36,7 @@ class J3DB {
     * @return void
     */
    public static function load() {
-      if (sizeof(J3DB::connections) > 0) {
+      if (sizeof(J3DB::$connections) > 0) {
          return;
       }
 
@@ -40,8 +45,8 @@ class J3DB {
          $mod = $arr['db_module'];
 
          $ini_array = J3ModuleLoader::loadModule(J3Utils::MOD_TYPE_DATABASE, $mod);
-         $conn = new $ini_array['connection_class']($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
-         J3DB::connections[$key] = $conn;
+         $conn = new $ini_array[J3Utils::MOD_INI_SECTION_MODULE]['connection_class']($arr['db_host'], $arr['db_port'], $arr['db_schema'], $arr['db_user'], $arr['db_password'], $arr['db_persistence'] === 1 ? true : false);
+         J3DB::$connections[$key] = $conn;
 
          if (isset($ini_array['model_class'])) {
             J3DB::$models[$key] = $ini_array['model_class'];
@@ -59,9 +64,9 @@ class J3DB {
     * @return void
     */
    public static function useDB($database) {
-      if (isset(J3DB::connections[$database])) {
-         J3DB::currentdb = J3DB::connections[$database];
-         J3DB::dbmodel = J3DB::models[$database];
+      if (isset(J3DB::$connections[$database])) {
+         J3DB::$currentdb = J3DB::$connections[$database];
+         J3DB::$dbmodel = J3DB::$models[$database];
       }
    }
 

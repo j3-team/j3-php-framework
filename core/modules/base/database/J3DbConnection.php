@@ -16,7 +16,7 @@ namespace J3\Core\Modules\Base\Database;
 
 use J3\Core\J3Utils;
 
-class J3DbConnection {
+abstract class J3DbConnection {
    protected $dbconnection;
    protected $host;
    protected $port;

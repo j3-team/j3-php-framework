@@ -80,10 +80,16 @@ class TestcController extends J3BaseController {
       return 258;
    }
 
-
    public function seven() {
-      $tabla = J3DB::table('mensaje');
-      
+      try {
+         $tabla = J3\Core\Modules\Base\Database\J3DB::table('mensaje');
+
+         $tabla->_select();
+         echo $tabla->sql();
+      } catch(\Exception $ex) {
+         echo "ERROR: " . $ex->getMessage();
+      }
+
    }
 }
 
