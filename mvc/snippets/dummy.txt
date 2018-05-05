@@ -1,0 +1,1 @@
+Put here some reusable code separated by file. and use in views.
